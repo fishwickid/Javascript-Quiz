@@ -45,16 +45,26 @@
                 <p>Time Remaining: <span id="count"></span>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-12">
                 <div id="scoreContainer" style="display: none">
                   <h3 id="finishText">Good work and keep improving</h3>
-                  <div id="answerDisplay"></div>
-                <form id="inputForm">
-                    <label for="">Leave Your Initials</label>
-                    <input type="text" name="Leave Your Initial" id="scoreRegister" placeholder="Your Initials">
-              
-              </div>
+                 <div id="answerDisplay"></div>
+                <!--<form id="inputForm">
+                    <label for="">Leave Your Initials </label>
+                    <input type="text" name="Leave Your Initial" id="register" placeholder="Your Initials">
+                    <button id="saveInitial">Save Your Score</button>
+                    <ul id="scoreRegister">0</ul>
+                </form>
+              -->
+                <div class="todos">
+                  <form id="todo-form" method="POST">
+                    <label for="todo-text">Leave Your Initials:</label>
+                    <input type="text" placeholder="Save Your Score" name="todo-text" id="todo-text" />
+                  </form>
+                  <p>Todo Count: <span id="todo-count">0</span></p>
+                  <ul id="todo-list"></ul>
+                </div>
+
+              </ul>
             </div>
           </div>
         </div>

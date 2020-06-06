@@ -7,11 +7,12 @@ const choiceA = document.getElementById("A");
 const choiceB = document.getElementById("B");
 const choiceC = document.getElementById("C");
 const choiceD = document.getElementById("D");
-const counter = document.getElementById("counter");
+//const counter = document.getElementById("counter");
 const scoreDiv = document.getElementById("scoreContainer");
 const secondsDisplay = document.querySelector("#seconds");
 const answerDisplay = document.getElementById("answerDisplay")
-
+const saveInitial = document.getElementById("saveInitial");
+const scoreRegister = document.getElementById("scoreRegister");
 
 // create our questions
 let questions = [
@@ -39,12 +40,12 @@ let questions = [
 // create some variables
 
 const lastQuestion = questions.length -1;
-console.log(lastQuestion);
 let runningQuestion = 0;
-let count = 99;
+let count = 9;
 //const questionTime =0; // 10s
 let TIMER;
 let score = 0;
+
 
 // render a question
 function renderQuestion(){
@@ -82,16 +83,21 @@ function renderProgress(){
 
 // Counting down 
 
+
 var interval = setInterval(function(){
  document.getElementById('count').innerHTML=count;
  count--;
  if (count === 0){
-  clearInterval(interval);
+    document.getElementById('count').innerHTML= "Time's Up";
+    clearInterval(interval);
    scoreRender()
   }
 }, 1000);
 
-/*function renderCounter(){
+
+/*
+
+function renderCounter(){
     if(count <= questionTime){
         counter.innerHTML = count;
         count++
@@ -123,7 +129,7 @@ function checkAnswer(answer){
     else {
         answerIsWrong();
     }
-    count = 0;
+    //count = 0;
     if(runningQuestion < lastQuestion){
         runningQuestion++;
         renderQuestion();
@@ -150,10 +156,95 @@ function scoreRender(){
     scoreDiv.style.display = "block";
     question.style.display = "none";
     choices.style.display = "none";
-    //p.style.display = "none";
-    
-    // calculate the amount of question percent answered by the user
-    const scorePerCent = Math.round(100 * score/questions.length);
-    
+    //saveInitial.addEventListener("submit", function(event) {
+        
     answerDisplay.innerHTML += "<p>"+ score +"/10</p>";
+    localStorage.setItem("scoreRegister", score);
 }
+
+// testing functions
+
+var todoInput = document.querySelector("#todo-text");
+var todoForm = document.querySelector("#todo-form");
+var todoList = document.querySelector("#todo-list");
+var todoCountSpan = document.querySelector("#todo-count");
+
+var todos = [];
+
+init();
+
+function renderTodos() {
+  // Clear todoList element and update todoCountSpan
+  todoList.innerHTML = "";
+  todoCountSpan.textContent = todos.length;
+
+  // Render a new li for each todo
+  for (var i = 0; i < todos.length; i++) {
+    var todo = todos[i];
+
+    var li = document.createElement("li");
+    li.textContent = todo;
+    li.setAttribute("data-index", i);
+
+    var button = document.createElement("button");
+    button.textContent = "Complete";
+
+    li.appendChild(button);
+    todoList.appendChild(li);
+  }
+}
+
+function init() {
+  // Get stored todos from localStorage
+  // Parsing the JSON string to an object
+  var storedTodos = JSON.parse(localStorage.getItem("todos"));
+
+  // If todos were retrieved from localStorage, update the todos array to it
+  if (storedTodos !== null) {
+    todos = storedTodos;
+  }
+
+  // Render todos to the DOM
+  renderTodos();
+}
+
+function storeTodos() {
+  // Stringify and set "todos" key in localStorage to todos array
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+// When form is submitted...
+todoForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  var todoText = todoInput.value.trim();
+
+  // Return from function early if submitted todoText is blank
+  if (todoText === "") {
+    return;
+  }
+
+  // Add new todoText to todos array, clear the input
+  todos.push(todoText);
+  todoInput.value = "";
+
+  // Store updated todos in localStorage, re-render the list
+  storeTodos();
+  renderTodos();
+});
+
+// When a element inside of the todoList is clicked...
+todoList.addEventListener("click", function(event) {
+  var element = event.target;
+
+  // If that element is a button...
+  if (element.matches("button") === true) {
+    // Get its data-index value and remove the todo element from the list
+    var index = element.parentElement.getAttribute("data-index");
+    todos.splice(index, 1);
+
+    // Store updated todos in localStorage, re-render the list
+    storeTodos();
+    renderTodos();
+  }
+});
