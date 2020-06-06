@@ -7,9 +7,9 @@
   <link rel="stylesheet" href="./assets/style.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-    crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
   <header class="container-fluid">
     <nav class="navbar navbar-light bg-light">
       <form class="form-inline">
-        <button class="btn btn-outline-success" type="button">High Scores</button>
+        <button class="btn btn-outline-success" type="button" onclick="https://fishwickid.github.io/Javascript-Quiz/quizIndex.html">Reset Quiz</button>
         <div id="floatingTimer" style="display: none;">
           <p>Time Remaining: <span id="count"></span>
         </div>
@@ -46,22 +46,17 @@
               </div>
             </div>
                 <div id="scoreContainer" style="display: none">
-                  <h3 id="finishText">Good work and keep improving</h3>
                  <div id="answerDisplay"></div>
-                <!--<form id="inputForm">
-                    <label for="">Leave Your Initials </label>
-                    <input type="text" name="Leave Your Initial" id="register" placeholder="Your Initials">
-                    <button id="saveInitial">Save Your Score</button>
-                    <ul id="scoreRegister">0</ul>
-                </form>
-              -->
+                
+              
                 <div class="todos">
-                  <form id="todo-form" method="POST">
-                    <label for="todo-text">Leave Your Initials:</label>
-                    <input type="text" placeholder="Save Your Score" name="todo-text" id="todo-text" />
+                  <form id="user-form" method="POST">
+                    <label for="user-text">Add Your Name:</label>
+                    <input type="text" placeholder="Join the best coders" name="user-text" id="user-text" />
                   </form>
-                  <p>Todo Count: <span id="todo-count">0</span></p>
-                  <ul id="todo-list"></ul>
+                  <h4>Top Players: <span id="user-count">0</span></h4>
+                  <ul id="user-list"></ul>
+                
                 </div>
 
               </ul>

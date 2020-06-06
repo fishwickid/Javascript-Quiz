@@ -1,4 +1,5 @@
 // select all elements
+
 const start = document.getElementById("start");
 const quiz = document.getElementById("quiz");
 const question = document.getElementById("question");
@@ -6,13 +7,12 @@ const floatingTimer = document.getElementById("floatingTimer");
 const choiceA = document.getElementById("A");
 const choiceB = document.getElementById("B");
 const choiceC = document.getElementById("C");
-const choiceD = document.getElementById("D");
-//const counter = document.getElementById("counter");
 const scoreDiv = document.getElementById("scoreContainer");
 const secondsDisplay = document.querySelector("#seconds");
-const answerDisplay = document.getElementById("answerDisplay")
+var answerDisplay = document.getElementById("answerDisplay")
 const saveInitial = document.getElementById("saveInitial");
 const scoreRegister = document.getElementById("scoreRegister");
+
 
 // create our questions
 let questions = [
@@ -34,6 +34,18 @@ let questions = [
         choiceB : "Sometimes they are",
         choiceC : "No, they are completely different languages",
         correct : "C"
+    },{
+        question: "Why would you use console.log?",
+        choiceA : "Check the time",
+        choiceB : "Log your code to check if it's working ok",
+        choiceC : "To tell the user what's happening behind the code",
+        correct : "B"
+    },{
+        question: "Where is the correct place to insert a JavaScript?",
+        choiceA : "The head section",
+        choiceB : "The body section",
+        choiceC : "Both sections are acceptable",
+        correct : "C"
     }
 ];
 
@@ -41,16 +53,15 @@ let questions = [
 
 const lastQuestion = questions.length -1;
 let runningQuestion = 0;
-let count = 9;
-//const questionTime =0; // 10s
+let count = 20;
 let TIMER;
 let score = 0;
+
 
 
 // render a question
 function renderQuestion(){
     let q = questions[runningQuestion];
-    
     question.innerHTML = "<p>"+ q.question +"</p>";
     
     choiceA.innerHTML = q.choiceA;
@@ -58,6 +69,7 @@ function renderQuestion(){
     choiceC.innerHTML = q.choiceC;
 }
 
+// add listener to start button
 start.addEventListener("click",startQuiz);
 
 
@@ -69,8 +81,7 @@ function startQuiz(){
     quiz.style.display = "block";
     floatingTimer.style.display = "block";
     renderProgress();
-    //renderCounter();
-    //TIMER = setTimeout(renderCounter,30000); // 1000ms = 1s
+    
 }
 
 // render progress
@@ -82,42 +93,18 @@ function renderProgress(){
 
 
 // Counting down 
-
-
 var interval = setInterval(function(){
  document.getElementById('count').innerHTML=count;
  count--;
  if (count === 0){
     document.getElementById('count').innerHTML= "Time's Up";
     clearInterval(interval);
-   scoreRender()
+    scoreRender()
   }
 }, 1000);
 
 
-/*
-
-function renderCounter(){
-    if(count <= questionTime){
-        counter.innerHTML = count;
-        count++
-    }else{
-        count = 0;
-        // change progress color to red
-        answerIsWrong();
-        if(runningQuestion < lastQuestion){
-            runningQuestion++;
-            renderQuestion();
-        }else{
-            // end the quiz and show the score
-            clearInterval(TIMER);
-            scoreRender();
-        }
-    }
-}
-*/
-
-// checkAnwer
+// check Anwer
 
 function checkAnswer(answer){
     // answer is correct
@@ -129,7 +116,6 @@ function checkAnswer(answer){
     else {
         answerIsWrong();
     }
-    //count = 0;
     if(runningQuestion < lastQuestion){
         runningQuestion++;
         renderQuestion();
@@ -142,7 +128,6 @@ function checkAnswer(answer){
 
 // answer is correct
 function answerIsCorrect(){
-    //document.getElementById("answerDisplay").innerHTML = "This is correct";
     confirm("That's Correct");
 }
 
@@ -153,25 +138,24 @@ function answerIsWrong(){
 
 // score render
 function scoreRender(){
+    document.getElementById('count').innerHTML= "You're Done!";
+    clearInterval(interval);
     scoreDiv.style.display = "block";
     question.style.display = "none";
     choices.style.display = "none";
-    //saveInitial.addEventListener("submit", function(event) {
-        
-    answerDisplay.innerHTML += "<p>"+ score +"/10</p>";
-    localStorage.setItem("scoreRegister", score);
+    answerDisplay.innerHTML += "<p>You Scored "+ score +"/5</p>";
 }
 
-// testing functions
+// Adding your score to the tally
 
-var todoInput = document.querySelector("#todo-text");
-var todoForm = document.querySelector("#todo-form");
-var todoList = document.querySelector("#todo-list");
-var todoCountSpan = document.querySelector("#todo-count");
+var todoInput = document.querySelector("#user-text");
+var todoForm = document.querySelector("#user-form");
+var todoList = document.querySelector("#user-list");
+var todoCountSpan = document.querySelector("#user-count");
 
-var todos = [];
+var todos = ["Rami", "Elise", "Chad"];
 
-init();
+renderTodos();
 
 function renderTodos() {
   // Clear todoList element and update todoCountSpan
@@ -184,33 +168,8 @@ function renderTodos() {
 
     var li = document.createElement("li");
     li.textContent = todo;
-    li.setAttribute("data-index", i);
-
-    var button = document.createElement("button");
-    button.textContent = "Complete";
-
-    li.appendChild(button);
     todoList.appendChild(li);
   }
-}
-
-function init() {
-  // Get stored todos from localStorage
-  // Parsing the JSON string to an object
-  var storedTodos = JSON.parse(localStorage.getItem("todos"));
-
-  // If todos were retrieved from localStorage, update the todos array to it
-  if (storedTodos !== null) {
-    todos = storedTodos;
-  }
-
-  // Render todos to the DOM
-  renderTodos();
-}
-
-function storeTodos() {
-  // Stringify and set "todos" key in localStorage to todos array
-  localStorage.setItem("todos", JSON.stringify(todos));
 }
 
 // When form is submitted...
@@ -228,23 +187,6 @@ todoForm.addEventListener("submit", function(event) {
   todos.push(todoText);
   todoInput.value = "";
 
-  // Store updated todos in localStorage, re-render the list
-  storeTodos();
+  // Re-render the list
   renderTodos();
-});
-
-// When a element inside of the todoList is clicked...
-todoList.addEventListener("click", function(event) {
-  var element = event.target;
-
-  // If that element is a button...
-  if (element.matches("button") === true) {
-    // Get its data-index value and remove the todo element from the list
-    var index = element.parentElement.getAttribute("data-index");
-    todos.splice(index, 1);
-
-    // Store updated todos in localStorage, re-render the list
-    storeTodos();
-    renderTodos();
-  }
 });
